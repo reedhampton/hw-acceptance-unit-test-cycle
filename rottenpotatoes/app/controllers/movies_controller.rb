@@ -61,4 +61,15 @@ class MoviesController < ApplicationController
     redirect_to movies_path
   end
 
+
+  def sim_search
+    @candidates = Movie.sim_movies(params[:title])
+    if @candidates == nil
+      flash[:warning] = "'" + params[:title] + "' has no director info"
+      redirect_to movies_path
+    elsif @candidates.size == 1 && @candidates.find_by(title: params[:title])
+      flash[:warning] = "'" + params[:title] + "' has no director info"
+      redirect_to movies_path
+    end
+  end
 end
